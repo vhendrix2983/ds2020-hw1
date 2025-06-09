@@ -1,0 +1,124 @@
+---
+title: 'DS 2020 - Summer 2025 - Homework #1'
+author: "Vaughn Hendrix"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instruction Lab Assignment
+
+If this is the first time you use git on your machine, you should start with [chapter 7](https://happygitwithr.com/hello-git)
+
+Follow the step-by-step instructions in [Chapter 12 of Happy git with R](https://happygitwithr.com/rstudio-git-github.html), create your own **public** repo under your account. Note: don't do the last step. DO NOT delete the repo!
+
+## part 1
+
+Describe your experience: make a note of each step. In case you run into a problem, describe it and the error message.
+
+> please write your experience below
+
+### Step 12.2
+
+Note: Quite standard. I went into my repo tab and clicked the green button.
+
+### Step 12.3
+
+Note: I copied my repo through the http link and used my terminal to add it to a desktop folder I have for this class.
+
+### Step 12.4
+
+Note: I edited the readMe file through Rstudio, then through my terminal added, commited, and pushed to remote repo
+
+## part 2
+
+Create a new file or add any types of file into your local repository and practice the "add-commit-pull-push" cycle. Then check your remote on GitHub to make sure it succeeds.
+
+## part 3
+
+paste the URL of your public repo here
+
+> paste it here: <https://github.com/vhendrix2983/ds2020-hw1>
+
+# ggplot2 Homework Assignment
+
+## Swiss Banknotes
+
+1.  Download the RMarkdown file with these homework instructions to use as a template for your work. Make sure to replace "Your Name" in the YAML with your name.
+
+2.  The R package `mclust` contains a data set called `banknote`, consisting of (physical) measurements on 200 Swiss bank notes, 100 of which are genuine, while the other half is counterfeit. Load this data set (you might have to install the package) using the code below.
+
+```{r, message = FALSE}
+library(mclust)
+library(ggplot2)
+library(tidyverse)
+data(banknote)
+```
+
+3.  Use one of our object inspecting functions and interpret the result in the data that you see.
+
+```{r}
+head(banknote, 10)
+tail(banknote, 10)
+summary(banknote)
+```
+
+4.  Use the package `ggplot2` to draw a barchart of `Status`. Map `Status` to the fill color of the barchart.
+
+```{r, fig.cap = "Figure 1. Barchart showing the count of banknotes of each status"}
+ggplot(data = banknote, aes(x = Status, fill = Status)) +
+  geom_bar()
+```
+
+#### Summary
+
+Figure 1 is a bar chart mapping status on the x-axis and keeping count of how many banknotes for counterfeit and genuine, where the color unique per status. The graph shows there is an equal amount of banknotes for each group. So observations comparing features like sum length will be proportional to mean as there isn't a different in number of banknotes.
+
+5.  Use the package `ggplot2` to draw a histogram of one of the variables in the dataset that shows a distinction between genuine and counterfeit banknotes. Use fill color to show this difference. Choose the binwidth such that there are no gaps in the middle range of the histogram.
+
+```{r, fig.cap = "Figure 2. Histogram of bank notes diagonal length(mm) classified by counterfiet of genuine"}
+ggplot(data = banknote, aes(x = Diagonal, fill = Status)) +
+  geom_histogram(binwidth = 0.215)
+```
+
+#### Summary
+
+Figure 2 is a histogram where x-axis is mapped by the diagonal length and y-axis is the count, the color represents the status of the banknote, and the bin width is 0.215 mm. The main finding in this graph is a clear distinction between banknotes when looking at diagonal length seen by a bi-modal distribution and the color distribution. An anomaly can be seen in the genuine banknotes where one is quite different from the others.
+
+6.  Use the package `ggplot2` to draw a scatterplot of two (continuous) measurements, color by `Status`. Find a pair of measurements that allow you to separate perfectly between genuine and counterfeit banknotes.
+
+```{r, fig.cap = "Figure 3. Scatterplot of bank notes length(mm) vs diagonal length(mm) classified by counterfiet of genuine"}
+ggplot(data = banknote, aes(x = Diagonal, y = Length, color = Status)) +
+  geom_point()
+```
+
+#### Summary
+
+Figure 3 is a scatterplot which maps the diagonal length(mm) to the x axis and the length(mm) to the y-axis, with each point given a color representing its status. From the graph, we can see that banknotes for each status aren't limited to a specific, but their diagonal length creates a clear distinction between the two groups, allowing to easily determine the status by diagonal length. It isn't seen in this graph but there is an outlier for genuine around the 139.6mm mark that is hidden.
+
+7.  For each of the three figures above, write a three sentence summary, describing the
+    a.  **structure of the plot**: what type of plot is it? Which variables are mapped to x, to y, and to the (fill) color?
+
+```{r}
+  
+```
+
+b.  **main message of the plot**: what is your main finding, i.e. what do you want viewers to learn from the plot?
+
+```{r}
+
+```
+
+c.  **additional message**: point out anomalies or outliers, if there are any.
+
+```{r}
+
+```
+
+<!-- -->
+
+8.  Ensure that your submission is reproducible. We will load your Rmd file into RStudio and knit it. This should match your submitted html file
+
+For the submission: submit your solution in an R Markdown file. Also submit the corresponding html file with it.
