@@ -62,19 +62,88 @@ data(banknote)
 ```{r}
 head(banknote, 10)
 tail(banknote, 10)
-summary(banknote)
+
+banknoteLength <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minLength = min(Length),
+    Q1 = quantile(Length, 0.25),
+    medianLength = median(Length),
+    Q3 = quantile(Length, 0.75),
+    maxLength = max(Length)
+  )
+banknoteDiagonal <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minDiagonal = min(Diagonal),
+    Q1 = quantile(Diagonal, 0.25),
+    medianDiagonal = median(Diagonal),
+    Q3 = quantile(Diagonal, 0.75),
+    maxDiagonal = max(Diagonal)
+  )
+banknoteLeft <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minLeft = min(Left),
+    Q1 = quantile(Left, 0.25),
+    medianLeft = median(Left),
+    Q3 = quantile(Left, 0.75),
+    maxLeft = max(Left)
+  )
+banknoteRight <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minRight = min(Right),
+    Q1 = quantile(Right, 0.25),
+    medianRight = median(Right),
+    Q3 = quantile(Right, 0.75),
+    maxRight = max(Right)
+  )
+banknoteTop <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minTop = min(Top),
+    Q1 = quantile(Top, 0.25),
+    medianTop = median(Top),
+    Q3 = quantile(Top, 0.75),
+    maxTop = max(Top)
+  )
+banknoteBottom <- banknote |> 
+  group_by(Status) |> 
+  summarise(
+    minBottom = min(Bottom),
+    Q1 = quantile(Bottom, 0.25),
+    medianBottom = median(Bottom),
+    Q3 = quantile(Bottom, 0.75),
+    maxBottom = max(Bottom)
+  )
+
+banknoteLength
+banknoteDiagonal
+banknoteLeft
+banknoteRight
+banknoteTop
 ```
 
 4.  Use the package `ggplot2` to draw a barchart of `Status`. Map `Status` to the fill color of the barchart.
 
-```{r, fig.cap = "Figure 1. Barchart showing the count of banknotes of each status"}
-ggplot(data = banknote, aes(x = Status, fill = Status)) +
-  geom_bar()
+```{r, fig.cap = "Figure 1. Barchart comparing counterfeit vs genuine features of sum total measurements"}
+banknoteEdited <- banknote |> 
+  pivot_longer(
+    cols = c(Length, Left, Right, Bottom, Top, Diagonal),
+    names_to = "type",
+    values_to = "values"
+  )
+
+
+ggplot(data = banknoteEdited, aes(x = Status, fill = Status)) +
+  geom_bar(aes(weight = values)) +
+  facet_wrap(~type, scales = "free_y")
 ```
 
 #### Summary
 
-Figure 1 is a bar chart mapping status on the x-axis and keeping count of how many banknotes for counterfeit and genuine, where the color unique per status. The graph shows there is an equal amount of banknotes for each group. So observations comparing features like sum length will be proportional to mean as there isn't a different in number of banknotes.
+Figure 1 is a bar chart mapping status on the x-axis and keeping count of total lengths of each feature for counterfeit and genuine where the color represents status. The graph shows there is discrepancy in bottom, top, and diagonal while other features are equal. This indicates that counterfeit banknotes usually exhibits larger top and bottom margins and longer diagonals then genuine banknotes.
 
 5.  Use the package `ggplot2` to draw a histogram of one of the variables in the dataset that shows a distinction between genuine and counterfeit banknotes. Use fill color to show this difference. Choose the binwidth such that there are no gaps in the middle range of the histogram.
 
